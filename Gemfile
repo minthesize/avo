@@ -61,10 +61,10 @@ group :development do
 
   gem "annotate"
 
-  # gem 'rack-mini-profiler'
-  # gem 'memory_profiler'
-  # gem 'stackprof'
-  # gem 'ruby-prof'
+  gem 'rack-mini-profiler'
+  gem 'memory_profiler'
+  gem 'stackprof'
+  gem 'ruby-prof'
 
   # gem 'pry-rails'
 
@@ -76,6 +76,14 @@ group :development do
   gem "ripper-tags"
   gem "rubocop-shopify", require: false
   gem "rubycritic", require: false
+
+  # catch N+1
+  gem "prosopite"
+  gem "pg_query"
+
+  # more memory profiling
+  gem "derailed_benchmarks"
+  gem "get_process_mem"
 end
 
 group :test do

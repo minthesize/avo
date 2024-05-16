@@ -147,6 +147,7 @@ GEM
     base64 (0.2.0)
     bcrypt (3.1.20)
     benchmark (0.3.0)
+    benchmark-ips (2.13.0)
     better_html (2.0.2)
       actionview (>= 6.0)
       activesupport (>= 6.0)
@@ -192,6 +193,19 @@ GEM
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
     date (3.3.4)
+    dead_end (4.0.0)
+    derailed_benchmarks (2.1.2)
+      benchmark-ips (~> 2)
+      dead_end
+      get_process_mem (~> 0)
+      heapy (~> 0)
+      memory_profiler (>= 0, < 2)
+      mini_histogram (>= 0.3.0)
+      rack (>= 1)
+      rack-test
+      rake (> 10, < 14)
+      ruby-statistics (>= 2.1)
+      thor (>= 0.19, < 2)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     devise (4.9.3)
@@ -266,12 +280,20 @@ GEM
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
     gem-release (2.2.2)
+    get_process_mem (0.2.7)
+      ffi (~> 1.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    google-protobuf (4.26.1)
+      rake (>= 13)
+    google-protobuf (4.26.1-x86_64-linux)
+      rake (>= 13)
     groupdate (6.4.0)
       activesupport (>= 6.1)
     hashdiff (1.1.0)
     hashids (1.0.6)
+    heapy (0.2.0)
+      thor
     highline (3.0.1)
     hightop (0.4.0)
       activesupport (>= 6.1)
@@ -336,9 +358,11 @@ GEM
     mapkick-rb (0.1.5)
     marcel (1.0.2)
     matrix (0.4.2)
+    memory_profiler (1.0.1)
     meta-tags (2.20.0)
       actionpack (>= 6.0.0, < 7.2)
     method_source (1.0.0)
+    mini_histogram (0.3.1)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.6)
@@ -378,10 +402,13 @@ GEM
       racc
     path_expander (1.1.1)
     pg (1.5.4)
+    pg_query (5.1.0)
+      google-protobuf (>= 3.22.3)
     prefixed_ids (1.6.1)
       hashids (>= 1.0.0, < 2.0.0)
       rails (>= 6.0.0)
     prettier_print (1.2.1)
+    prosopite (1.4.2)
     psych (5.1.2)
       stringio
     public_suffix (5.0.4)
@@ -389,6 +416,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.7.3)
     rack (3.0.10)
+    rack-mini-profiler (3.3.1)
+      rack (>= 1.2.0)
     rack-session (2.0.0)
       rack (>= 3.0.0)
     rack-test (2.1.0)
@@ -500,7 +529,9 @@ GEM
       rubocop-ast (>= 1.30.0, < 2.0)
     rubocop-shopify (2.14.0)
       rubocop (~> 1.51)
+    ruby-prof (1.7.0)
     ruby-progressbar (1.13.0)
+    ruby-statistics (3.0.2)
     ruby-vips (2.2.0)
       ffi (~> 1.12)
     ruby_parser (3.21.0)
@@ -559,6 +590,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    stackprof (0.2.26)
     standard (1.33.0)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -648,6 +680,7 @@ DEPENDENCIES
   cssbundling-rails
   cuprite
   database_cleaner-active_record
+  derailed_benchmarks
   devise
   dotenv-rails
   erb-formatter
@@ -656,6 +689,7 @@ DEPENDENCIES
   friendly_id (~> 5.5.1)
   fuubar
   gem-release
+  get_process_mem
   groupdate
   hightop
   hotwire-livereload (~> 1.3.0)
@@ -668,14 +702,18 @@ DEPENDENCIES
   launchy
   listen (>= 3.5.1)
   mapkick-rb (~> 0.1.4)
+  memory_profiler
   meta-tags
   money-rails (~> 1.12)
   net-smtp
   pagy (> 8)
   pg (>= 0.18, < 2.0)
+  pg_query
   pluggy!
   prefixed_ids
+  prosopite
   puma (~> 6.4)
+  rack-mini-profiler
   rails (~> 7.1.0)
   rails-controller-testing
   ransack (~> 4.1, >= 4.1.1)
@@ -685,6 +723,7 @@ DEPENDENCIES
   rspec-retry (~> 0.6.2)
   rubocop
   rubocop-shopify
+  ruby-prof
   rubycritic
   simplecov
   simplecov-cobertura
@@ -694,6 +733,7 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   sprockets-rails
+  stackprof
   standard
   test-prof
   tzinfo-data

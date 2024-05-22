@@ -459,13 +459,21 @@ module Avo
       file_name = self.class.underscore_name.tr(" ", "_")
       resource_path = Rails.root.join("app", "avo", "resources", "#{file_name}.rb").to_s
       if File.file? resource_path
-        content_to_be_hashed += File.read(resource_path)
+        if ENV["CACHE_FILE_HASH"]
+          content_to_be_hashed += Avo::ResourceRegistry.instance.fetch(resource_path) { File.read(resource_path) }
+        else
+          content_to_be_hashed += File.read(resource_path)
+        end
       end
 
       # policy file hash
       policy_path = Rails.root.join("app", "policies", "#{file_name.gsub("_resource", "")}_policy.rb").to_s
       if File.file? policy_path
-        content_to_be_hashed += File.read(policy_path)
+        if ENV["CACHE_FILE_HASH"]
+          content_to_be_hashed += Avo::ResourceRegistry.instance.fetch(policy_path) { File.read(policy_path) }
+        else
+          content_to_be_hashed += File.read(policy_path)
+        end
       end
 
       Digest::MD5.hexdigest(content_to_be_hashed)

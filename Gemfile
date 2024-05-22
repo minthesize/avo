@@ -86,6 +86,10 @@ group :development do
   gem "get_process_mem"
 
   gem "prometheus-client"
+
+  # benchmarks
+  gem "benchmark-ips"
+  gem "benchmark-memory"
 end
 
 group :test do

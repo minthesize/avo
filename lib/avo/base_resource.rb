@@ -456,7 +456,6 @@ module Avo
     def file_hash
       content_to_be_hashed = ""
 
-      file_name = self.class.underscore_name.tr(" ", "_")
       resource_path = Rails.root.join("app", "avo", "resources", "#{file_name}.rb").to_s
       if File.file? resource_path
         if ENV["CACHE_FILE_HASH"]
@@ -487,6 +486,14 @@ module Avo
       end
 
       result
+    end
+
+    def file_name
+      if ENV["MEMOIZE_RESOURCE_FILE_NAME"]
+        @file_name ||= self.class.underscore_name.tr(" ", "_")
+      else
+        self.class.underscore_name.tr(" ", "_")
+      end
     end
 
     # We will not overwrite any attributes that come pre-filled in the record.

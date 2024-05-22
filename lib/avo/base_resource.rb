@@ -158,11 +158,19 @@ module Avo
       # With uncountable models route key appends an _index suffix (Fish->fish_index)
       # Example: User->users, MediaItem->media_items, Fish->fish
       def model_key
-        model_class.model_name.plural
+        if ENV["MEMOIZE_RESOURCE_CLASS_NAME"]
+          @model_key ||= model_class.model_name.plural
+        else
+          model_class.model_name.plural
+        end
       end
 
       def class_name
-        to_s.demodulize
+        if ENV["MEMOIZE_RESOURCE_CLASS_NAME"]
+          @class_name ||= to_s.demodulize
+        else
+          to_s.demodulize
+        end
       end
 
       def route_key
@@ -178,7 +186,11 @@ module Avo
       end
 
       def name
-        name_from_translation_key(count: 1, default: class_name.underscore.humanize)
+        if ENV["MEMOIZE_RESOURCE_CLASS_NAME"]
+          @name ||= name_from_translation_key(count: 1, default: class_name.underscore.humanize)
+        else
+          name_from_translation_key(count: 1, default: class_name.underscore.humanize)
+        end
       end
       alias_method :singular_name, :name
 

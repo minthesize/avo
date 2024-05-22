@@ -243,7 +243,11 @@ module Avo
       end
 
       def type
-        self.class.name.demodulize.to_s.underscore.gsub("_field", "")
+        if ENV["MEMOIZE_TYPE"]
+          @type ||= self.class.name.demodulize.to_s.underscore.gsub("_field", "")
+        else
+          self.class.name.demodulize.to_s.underscore.gsub("_field", "")
+        end
       end
 
       def custom?

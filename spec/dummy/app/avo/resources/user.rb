@@ -33,7 +33,7 @@ class Avo::Resources::User < Avo::BaseResource
       first_is_number ? query.find(id) : query.find_by_slug(id)
     end
   }
-  self.includes = [:posts, :post]
+  self.includes = [:posts, :post, :fish, :comment]
   self.attachments = [:cv]
   self.devise_password_optional = true
   self.grid_view = {

@@ -7,7 +7,7 @@ class Avo::Resources::Post < Avo::BaseResource
     help: "- search by id, name or body"
   }
 
-  self.includes = [:user]
+  self.includes = [:user, :tags]
   self.attachments = [:cover_photo, :audio, :attachments]
   self.default_view_type = -> {
     mobile_user = request.user_agent =~ /Mobile/

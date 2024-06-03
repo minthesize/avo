@@ -46,6 +46,7 @@ module Avo
     class_attribute :title
     class_attribute :search, default: {}
     class_attribute :includes, default: []
+    class_attribute :attachments, default: []
     class_attribute :authorization_policy
     class_attribute :translation_key
     class_attribute :default_view_type, default: :table

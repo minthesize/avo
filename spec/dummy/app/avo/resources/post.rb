@@ -8,6 +8,7 @@ class Avo::Resources::Post < Avo::BaseResource
   }
 
   self.includes = [:user]
+  self.attachments = [:cover_photo, :audio, :attachments]
   self.default_view_type = -> {
     mobile_user = request.user_agent =~ /Mobile/
 

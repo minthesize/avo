@@ -80,4 +80,9 @@ Rails.application.configure do
   config.hotwire_livereload.listen_paths << Avo::Engine.root.join("app/javascript")
   config.hotwire_livereload.listen_paths << Avo::Engine.root.join("app/views")
   config.hotwire_livereload.listen_paths << Avo::Engine.root.join("lib")
+
+  config.after_initialize do
+    Prosopite.rails_logger = true
+    Prosopite.prosopite_logger = true
+  end
 end

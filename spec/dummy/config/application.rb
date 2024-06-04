@@ -42,7 +42,7 @@ module Avo3Dummy
     # ---
 
     config.action_view.form_with_generates_remote_forms = false
-
+    config.hosts << "avo.eu.ngrok.io"
     # Rails.autoloaders.log!
   end
 end

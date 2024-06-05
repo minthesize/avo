@@ -408,6 +408,7 @@ GEM
       hashids (>= 1.0.0, < 2.0.0)
       rails (>= 6.0.0)
     prettier_print (1.2.1)
+    prometheus-client (4.2.2)
     prosopite (1.4.2)
     psych (5.1.2)
       stringio
@@ -711,6 +712,7 @@ DEPENDENCIES
   pg_query
   pluggy!
   prefixed_ids
+  prometheus-client
   prosopite
   puma (~> 6.4)
   rack-mini-profiler

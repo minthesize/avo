@@ -84,6 +84,8 @@ group :development do
   # more memory profiling
   gem "derailed_benchmarks"
   gem "get_process_mem"
+
+  gem "prometheus-client"
 end
 
 group :test do

@@ -158,11 +158,19 @@ module Avo
       # With uncountable models route key appends an _index suffix (Fish->fish_index)
       # Example: User->users, MediaItem->media_items, Fish->fish
       def model_key
-        model_class.model_name.plural
+        if ENV["MEMOIZE_RESOURCE_CLASS_NAME"]
+          @model_key ||= model_class.model_name.plural
+        else
+          model_class.model_name.plural
+        end
       end
 
       def class_name
-        to_s.demodulize
+        if ENV["MEMOIZE_RESOURCE_CLASS_NAME"]
+          @class_name ||= to_s.demodulize
+        else
+          to_s.demodulize
+        end
       end
 
       def route_key
@@ -178,7 +186,11 @@ module Avo
       end
 
       def name
-        name_from_translation_key(count: 1, default: class_name.underscore.humanize)
+        if ENV["MEMOIZE_RESOURCE_CLASS_NAME"]
+          @name ||= name_from_translation_key(count: 1, default: class_name.underscore.humanize)
+        else
+          name_from_translation_key(count: 1, default: class_name.underscore.humanize)
+        end
       end
       alias_method :singular_name, :name
 
@@ -456,16 +468,23 @@ module Avo
     def file_hash
       content_to_be_hashed = ""
 
-      file_name = self.class.underscore_name.tr(" ", "_")
       resource_path = Rails.root.join("app", "avo", "resources", "#{file_name}.rb").to_s
       if File.file? resource_path
-        content_to_be_hashed += File.read(resource_path)
+        if ENV["CACHE_FILE_HASH"]
+          content_to_be_hashed += Avo::ResourceRegistry.instance.fetch(resource_path) { File.read(resource_path) }
+        else
+          content_to_be_hashed += File.read(resource_path)
+        end
       end
 
       # policy file hash
       policy_path = Rails.root.join("app", "policies", "#{file_name.gsub("_resource", "")}_policy.rb").to_s
       if File.file? policy_path
-        content_to_be_hashed += File.read(policy_path)
+        if ENV["CACHE_FILE_HASH"]
+          content_to_be_hashed += Avo::ResourceRegistry.instance.fetch(policy_path) { File.read(policy_path) }
+        else
+          content_to_be_hashed += File.read(policy_path)
+        end
       end
 
       Digest::MD5.hexdigest(content_to_be_hashed)
@@ -479,6 +498,14 @@ module Avo
       end
 
       result
+    end
+
+    def file_name
+      if ENV["MEMOIZE_RESOURCE_FILE_NAME"]
+        @file_name ||= self.class.underscore_name.tr(" ", "_")
+      else
+        self.class.underscore_name.tr(" ", "_")
+      end
     end
 
     # We will not overwrite any attributes that come pre-filled in the record.

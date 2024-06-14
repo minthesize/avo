@@ -14,6 +14,7 @@ module Avo
     protect_from_forgery with: :exception
     around_action :set_avo_locale
     around_action :set_force_locale, if: -> { params[:force_locale].present? }
+    around_action :n_plus_one_detection
     before_action :set_default_locale, if: -> { params[:set_locale].present? }
     before_action :init_app
     before_action :set_active_storage_current_host
@@ -362,6 +363,13 @@ module Avo
       else
         "avo/application"
       end
+    end
+
+    def n_plus_one_detection
+      Prosopite.scan
+      yield
+    ensure
+      Prosopite.finish
     end
   end
 end
